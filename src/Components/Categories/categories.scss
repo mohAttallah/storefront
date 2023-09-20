@@ -16,7 +16,7 @@
         user-select: none;
         padding: 3px;
         cursor: auto;
-        border: 2px solid white;
+        border: 1px solid white;
         position: relative;
 
     }
@@ -34,7 +34,7 @@
 
     li:hover {
         cursor: pointer;
-        border-color:none;
+        border-color: none;
     }
 
     li:hover::before {
@@ -42,4 +42,19 @@
         transition: width 0.2s;
     }
 
+}
+
+@media (max-width: 768px) {
+    .categories {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+
+        li {
+            margin-top: 10px;
+            font-size: 16px;
+            padding: 5px;
+        }
+    }
 }
