@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import "./products.scss"
+import { setProduct } from "../../store/cart";
 
 
 function Products(props) {
@@ -13,7 +14,6 @@ function Products(props) {
     }
 
     const activeCategory = products[activeItem].items;
-    console.log(activeCategory)
 
     return (
         <div className="main-section">
@@ -25,7 +25,7 @@ function Products(props) {
                     <p>  Price: <strong>{Math.floor(item.price)}$</strong>
                     </p>
                     <ul>
-                        <li>ADD TO CART</li>
+                        <li onClick={() => props.setProduct(item)}>ADD TO CART</li>
                         <li>VIEW DETAILS</li>
                     </ul>
                 </div>
@@ -33,10 +33,14 @@ function Products(props) {
         </div>
     );
 }
-const mapStateToProps = state => ({
 
+
+const mapDispatchProps = { setProduct };
+
+const mapStateToProps = state => ({
     categories: state.categories,
-    products: state.products
+    products: state.products,
+    cart: state.cart
 });
 
-export default connect(mapStateToProps)(Products);
+export default connect(mapStateToProps, mapDispatchProps)(Products);
