@@ -4,21 +4,42 @@
     justify-content: space-around;
     align-items: center;
 
+    .active {
+        border-bottom: 1px solid #424242;
+    }
+
     li {
         list-style: none;
         font-size: 18px;
         text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-        transition: border-bottom 0.3s ease-in-out;
+        transition: transform 0.2s, background-color 0.2s;
         user-select: none;
+        padding: 3px;
         cursor: auto;
+        border: 2px solid white;
+        position: relative;
+
+    }
+
+    li::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #424242;
+        transition: width 0.2s;
     }
 
     li:hover {
-        border-bottom: 2px solid rgba(0, 0, 0, 0.3);
         cursor: pointer;
+        border-color:none;
     }
-}
 
-.active {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    li:hover::before {
+        width: 100%;
+        transition: width 0.2s;
+    }
+
 }
