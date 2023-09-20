@@ -1,59 +1,42 @@
 import { connect } from "react-redux";
-const randomData = {
-    Electronics: {
-        id: 1,
-        title: 'Electronics',
-        subtitle: 'Explore the latest gadgets and tech',
-        photo: 'https://example.com/electronics.jpg',
-    },
-    Accessories: {
-        id: 2,
-        title: 'Accessories',
-        subtitle: 'Find stylish accessories for any occasion',
-        photo: 'https://example.com/accessories.jpg',
-    },
-    Toys: {
-        id: 3,
-        title: 'Toys',
-        subtitle: 'Fun and games for all ages',
-        photo: 'https://example.com/toys.jpg',
-    },
-    'Home & Kitchen': {
-        id: 4,
-        title: 'Home & Kitchen',
-        subtitle: 'Upgrade your living space',
-        photo: 'https://example.com/home-kitchen.jpg',
-    },
-};
+import "./products.scss"
 
 
 function Products(props) {
-    const { categories } = props;
+    const { products } = props;
     let activeItem = null;
-
-    categories.categories.forEach(item => {
-        if (item.active === true) {
-            activeItem = item.name;
-            return;
+    for (const item in products) {
+        if (products.hasOwnProperty(item) && products[item].active === true) {
+            activeItem = item;
+            break;
         }
-    });
-    const activeItemData = randomData[activeItem];
+    }
+
+    const activeCategory = products[activeItem].items;
+    console.log(activeCategory)
 
     return (
-        <div>
-            {activeItemData && (
-                <div>
-                    <h2>{activeItemData.title}</h2>
-                    <p>{activeItemData.subtitle}</p>
-                    <img src={activeItemData.photo} alt={activeItemData.title} />
+        <div className="main-section">
+            {activeCategory.map(item => (
+                <div key={item.id} className="card">
+                    <img src={item.photo} alt={item.title} />
+                    <h2>{item.title}</h2>
+                    <p>{item.subtitle}</p>
+                    <p>  Price: <strong>{Math.floor(item.price)}$</strong>
+                    </p>
+                    <ul>
+                        <li>ADD TO CART</li>
+                        <li>VIEW DETAILS</li>
+                    </ul>
                 </div>
-            )}
+            ))}
         </div>
     );
 }
-
 const mapStateToProps = state => ({
-    categories: state.categories
+
+    categories: state.categories,
+    products: state.products
 });
 
 export default connect(mapStateToProps)(Products);

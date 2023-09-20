@@ -3,7 +3,7 @@ import { setActive } from "../../store/categories";
 import "./categories.scss";
 
 function Categories(props) {
-  
+    
     return (
         <div>
             <ul className="categories">{
