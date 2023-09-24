@@ -7,12 +7,7 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    MenuItemOption,
-    MenuGroup,
-    MenuOptionGroup,
-    MenuDivider,
     Image,
-    CSSReset
 } from '@chakra-ui/react'
 import { FaShoppingCart } from 'react-icons/fa';
 
@@ -34,7 +29,7 @@ function Cart(props) {
             <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon />} fontWeight="light" backgroundColor='inherit' onClick={() => setIsOpen(!isOpen)} >
                 <span style={{ opacity: 0.6 }}>
                     <FaShoppingCart size={20} />
-                     ({cart.length})  
+                    ({cart.length})
                 </span>
 
 
@@ -51,9 +46,15 @@ function Cart(props) {
                                 mr='12px'
                             />
                             <span>{item.title}</span>
-                            <Button size="sm" backgroundColor="rgba(0, 0, 0, 0.1)" ml={10}>
-                                <CloseIcon onClick={() => props.removeProduct(item)} />
+                            <Button
+                                onClick={() => props.removeProduct(item)}
+                                size="sm"
+                                backgroundColor="rgba(0, 0, 0, 0.1)"
+                                ml={10}
+                            >
+                                <CloseIcon />
                             </Button>
+
                         </MenuItem>
                     ))
                 }

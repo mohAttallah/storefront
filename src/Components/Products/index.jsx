@@ -1,31 +1,37 @@
-import { connect } from "react-redux";
-import "./products.scss"
+import "./products.scss";
 import { setProduct } from "../../store/cart";
+import { useSelector, useDispatch } from 'react-redux';
+import { get } from "../../store/products";
+import { useEffect } from "react";
+function Products() {
+
+    const dispatch = useDispatch();
+
+    // State
+    const cartState = useSelector((state) => state.cart);
+    const productsState = useSelector((state) => state.products);
+    const categoriesState = useSelector((state) => state.categories);
+
+    useEffect(() => {
+        dispatch(get())
+    }, [categoriesState, cartState])
 
 
-function Products(props) {
-    const { products } = props;
-    let activeItem = null;
-    for (const item in products) {
-        if (products.hasOwnProperty(item) && products[item].active === true) {
-            activeItem = item;
-            break;
-        }
-    }
-
-    const activeCategory = products[activeItem].items;
+    const activeItem = categoriesState.find(item => item.active === true);
+    const filteredProducts = productsState.filter(product => product.category === activeItem.name);
 
     return (
         <div className="main-section">
-            {activeCategory.map(item => (
+            {filteredProducts.map(item => (
                 <div key={item.id} className="card">
                     <img src={item.photo} alt={item.title} />
                     <h2>{item.title}</h2>
                     <p>{item.subtitle}</p>
+                    <p>Quantity: {item.quantity}</p>
                     <p>  Price: <strong>{Math.floor(item.price)}$</strong>
                     </p>
                     <ul>
-                        <li onClick={() => props.setProduct(item)}>ADD TO CART</li>
+                        <li onClick={() => dispatch(setProduct(item))}>ADD TO CART</li>
                         <li>VIEW DETAILS</li>
                     </ul>
                 </div>
@@ -34,13 +40,4 @@ function Products(props) {
     );
 }
 
-
-const mapDispatchProps = { setProduct };
-
-const mapStateToProps = state => ({
-    categories: state.categories,
-    products: state.products,
-    cart: state.cart
-});
-
-export default connect(mapStateToProps, mapDispatchProps)(Products);
+export default Products;
