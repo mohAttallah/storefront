@@ -5,10 +5,9 @@ function Cart() {
     let total = 0;
 
     for (const item of cart) {
-        total += item.price * item.quantity;
+        total += parseInt(item.price);
     }
 
-    console.log("cart", cart)
     return (
         <div className="body">
             <h2>Shopping Cart <bold className="bold">({cart.length} items)</bold></h2>
@@ -31,7 +30,7 @@ function Cart() {
                 </div>
                 <div className="summary">
                     <h3>Order Summary</h3>
-                    <p>Total Price: ${total.toFixed(2)}</p>
+                    <p>Total Price: ${total}</p>
                     <button>Chackout ➡ </button>
                 </div>
             </div>

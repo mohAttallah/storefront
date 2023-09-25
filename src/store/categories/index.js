@@ -1,20 +1,31 @@
 /* eslint-disable  */
 import { createSlice } from '@reduxjs/toolkit';
-
+import axios from 'axios';
 
 const initialState = [
 
-    { name: "Electronics", active: true },
-    { name: "Accessories", active: false },
-    { name: "Toys", active: false },
-    { name: "Home & Kitchen", active: false },
 ]
+
+
+
+export const getCategories = () => async dispatch => {
+    try {
+        const res = await axios.get('https://api-auth-ehg1.onrender.com/category');
+        console.log("res",res.data)
+        dispatch(setCategories(res.data));
+    } catch (error) {
+        console.error('Error fetching the Category:', error);
+    }
+}
 
 
 const categoriesSlicer = createSlice({
     name: 'categories',
     initialState,
     reducers: {
+        setCategories: (state, action) => {
+            return action.payload;
+        },
         setActive: (state, action) => {
             const { payload } = action;
             return state.map(category => ({
@@ -24,7 +35,10 @@ const categoriesSlicer = createSlice({
         }
     },
 })
-export const { setActive } = categoriesSlicer.actions;
+
+export const { setActive, setCategories } = categoriesSlicer.actions;
 export default categoriesSlicer.reducer;
+
+
 
 /* eslint-enable */

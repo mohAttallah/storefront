@@ -1,9 +1,15 @@
+import { useEffect } from "react";
 import { setActive } from "../../store/categories";
+import { getCategories } from "../../store/categories"
 import "./categories.scss";
 import { useSelector, useDispatch } from 'react-redux';
 
 function Categories() {
+    useEffect(() => {
+        dispatch(getCategories())
+    }, [])
     const dispatch = useDispatch();
+
     const categories = useSelector((state) => state.categories);
     return (
         <div>
