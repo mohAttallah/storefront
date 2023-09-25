@@ -1,8 +1,11 @@
 import "./products.scss";
+import { useState } from "react";
 import { setProduct } from "../../store/cart";
 import { useSelector, useDispatch } from 'react-redux';
 import { get } from "../../store/products";
 import { useEffect } from "react";
+import { Skeleton, SkeletonCircle, SkeletonText, Stack } from '@chakra-ui/react'
+import { Link } from "react-router-dom";
 function Products() {
 
     const dispatch = useDispatch();
@@ -12,9 +15,24 @@ function Products() {
     const productsState = useSelector((state) => state.products);
     const categoriesState = useSelector((state) => state.categories);
 
+    const [isLoadingData, setIsLoadingData] = useState(false);
+
     useEffect(() => {
-        dispatch(get())
-    }, [categoriesState, cartState])
+        setIsLoadingData(true);
+
+        dispatch(get()).then(() => {
+            setIsLoadingData(false);
+        }); 
+
+    }, [categoriesState,cartState])
+
+    if (isLoadingData) {
+        return (<Stack>
+            <Skeleton height='20px' />
+            <Skeleton height='20px' />
+            <Skeleton height='20px' />
+        </Stack>);
+    }
 
 
     const activeItem = categoriesState.find(item => item.active === true);
@@ -32,7 +50,11 @@ function Products() {
                     </p>
                     <ul>
                         <li onClick={() => dispatch(setProduct(item))}>ADD TO CART</li>
-                        <li>VIEW DETAILS</li>
+
+                        <li>
+                            <Link to={`/details/${item.id}`}>VIEW DETAILS</Link>
+
+                        </li>
                     </ul>
                 </div>
             ))}

@@ -1,15 +1,18 @@
 import './header.scss'
-import Cart from '../../SimpleCart';
+import SimpleCart from '../../SimpleCart';
+import { Link } from 'react-router-dom';
 function Header() {
     return (
         <nav className="navBar">
             <div className='left-header'>
-                <h1>OUR STORE</h1>
+                <Link to='/'>
+                    <h1>OUR STORE</h1>
+                </Link>
             </div>
             <div className='right-header'>
-                <h3><Cart /></h3>
+                <h3><SimpleCart /></h3>
             </div>
-           
+
         </nav>
     );
 }

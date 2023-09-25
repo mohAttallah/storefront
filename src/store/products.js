@@ -31,5 +31,3 @@ const getActionDispatch = (data) => {
     }
 }
 /* eslint-enable */
-
-
