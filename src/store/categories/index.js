@@ -1,4 +1,5 @@
 /* eslint-disable  */
+import { createSlice } from '@reduxjs/toolkit';
 
 
 const initialState = [
@@ -10,24 +11,20 @@ const initialState = [
 ]
 
 
-export default (state = initialState, action) => {
-    const { type, payload } = action;
-    switch (type) {
-        case 'SET_ACTIVE':
-            const updatedCategories = state.map(category => ({
+const categoriesSlicer = createSlice({
+    name: 'categories',
+    initialState,
+    reducers: {
+        setActive: (state, action) => {
+            const { payload } = action;
+            return state.map(category => ({
                 ...category,
                 active: category.name === payload,
-            }));
-            return updatedCategories;
-        default:
-            return state;
-    }
-};
-export const setActive = (name) => {
-    return {
-        type: 'SET_ACTIVE',
-        payload: name
-    }
-}
+            }))
+        }
+    },
+})
+export const { setActive } = categoriesSlicer.actions;
+export default categoriesSlicer.reducer;
 
 /* eslint-enable */

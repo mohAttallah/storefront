@@ -1,12 +1,20 @@
 import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
+
 
 const initialState = {
     cart: []
 }
 
-export default (state = initialState, action) => {
-    console.log(initialState)
+// const cartSlicer = createSlice({
+//     const initialState = {
+//         cart: []
+//     }
 
+// })
+
+
+export default (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
 

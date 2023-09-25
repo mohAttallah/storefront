@@ -1,7 +1,9 @@
-import "./SimpleCart.scss"
+import "./SimpleCart.scss";
 import { removeProduct } from "../../store/cart";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
     Menu,
     MenuButton,
@@ -15,24 +17,18 @@ import { Button } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { CloseIcon } from '@chakra-ui/icons';
 
-function Cart(props) {
-
-    const cart = props.cart.cart;
-
+function SimpleCart() {
+    const cart = useSelector(state => state.cart.cart);
+    const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
 
-
     return (
-
         <Menu isOpen={isOpen}>
-
-            <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon />} fontWeight="light" backgroundColor='inherit' onClick={() => setIsOpen(!isOpen)} >
+            <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon />} fontWeight="light" backgroundColor='inherit' onClick={() => setIsOpen(!isOpen)}>
                 <span style={{ opacity: 0.6 }}>
                     <FaShoppingCart size={20} />
                     ({cart.length})
                 </span>
-
-
             </MenuButton>
             <MenuList onClose={() => setIsOpen(false)}>
                 {
@@ -47,7 +43,7 @@ function Cart(props) {
                             />
                             <span>{item.title}</span>
                             <Button
-                                onClick={() => props.removeProduct(item)}
+                                onClick={() => dispatch(removeProduct(item))}
                                 size="sm"
                                 backgroundColor="rgba(0, 0, 0, 0.1)"
                                 ml={10}
@@ -56,20 +52,25 @@ function Cart(props) {
                             </Button>
 
                         </MenuItem>
+
                     ))
                 }
-            </MenuList>
+                {cart.length > 0 && (
 
-        </Menu >
+                    <div className="view-cart">
+                        <Link to='/cart'>
+                            <Button colorScheme='teal' variant='outline'>
+                                View All Cart
+                            </Button>
+                        </Link>
+                    </div>
+                )
+                }
+
+
+            </MenuList>
+        </Menu>
     );
 }
 
-
-
-const mapStateToProps = state => ({
-    cart: state.cart
-});
-const mapDispatchProps = { removeProduct };
-export default connect(mapStateToProps, mapDispatchProps)(Cart);
-
-// export default Cart;
+export default SimpleCart;
