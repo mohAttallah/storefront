@@ -13,20 +13,18 @@ function Products() {
     // State
     const cartState = useSelector((state) => state.cart);
     const productsState = useSelector((state) => state.products);
-    const categoriesState = useSelector((state) => state.categories);
 
     const [isLoadingData, setIsLoadingData] = useState(false);
+    const categoriesState = useSelector((state) => state.categories);
 
     useEffect(() => {
         if (productsState.length === 0) {
             setIsLoadingData(true);
 
         }
-
         dispatch(get()).then(() => {
             setIsLoadingData(false);
         });
-
     }, [categoriesState, cartState])
 
     if (isLoadingData) {
@@ -39,7 +37,11 @@ function Products() {
 
 
     const activeItem = categoriesState.find(item => item.active === true);
-    const filteredProducts = productsState.filter(product => product.category === activeItem.name);
+    let filteredProducts =[]
+    if (activeItem) {
+        filteredProducts = productsState.filter(product => product.category === activeItem.name);
+
+    }
 
     return (
         <div className="main-section">

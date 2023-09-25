@@ -24,7 +24,6 @@ export const get = () => async dispatch => {
 }
 
 const getActionDispatch = (data) => {
-    console.log(data)
     return {
         type: 'GET',
         payload: data
