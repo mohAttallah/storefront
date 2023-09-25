@@ -18,13 +18,16 @@ function Products() {
     const [isLoadingData, setIsLoadingData] = useState(false);
 
     useEffect(() => {
-        setIsLoadingData(true);
+        if (productsState.length === 0) {
+            setIsLoadingData(true);
+
+        }
 
         dispatch(get()).then(() => {
             setIsLoadingData(false);
-        }); 
+        });
 
-    }, [categoriesState,cartState])
+    }, [categoriesState, cartState])
 
     if (isLoadingData) {
         return (<Stack>
