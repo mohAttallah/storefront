@@ -1,41 +1,37 @@
 import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const initialState = {
-    cart: []
-}
+    cart: [],
+};
 
-// const cartSlicer = createSlice({
-//     const initialState = {
-//         cart: []
-//     }
+const cartSlice = createSlice({
+    name: "cart",
+    initialState,
+    reducers: {
+        setProduct: (state, action) => {
+            updateQuantity(action.payload, "decrement");
 
-// })
+            const updatedCart = [...state.cart, action.payload];
+            state.cart = updatedCart;
+        },
+        removeProduct: (state, action) => {
+            updateQuantity(action.payload, "increment");
+            const updatedCart = state.cart.filter(
+                (product) => product.id !== action.payload.id
+            );
+            state.cart = updatedCart;
+        },
+    },
+});
 
-
-export default (state = initialState, action) => {
-    const { type, payload } = action;
-    switch (type) {
-
-        case 'SET_PRODUCT':
-            return {
-                ...state,
-                cart: [...state.cart, payload]
-            };
-        case 'REMOVE_PRODUCT':
-            return {
-                ...state,
-                cart: state.cart.filter(product => product.id !== payload.id)
-            };
-        default:
-            return state;
-    }
-}
+export const { setProduct, removeProduct } = cartSlice.actions;
+export default cartSlice.reducer;
 
 async function updateQuantity(item, action) {
     const id = item.id;
-    const quantity = action === 'decrement' ? item.quantity - 1 : item.quantity + 1;
+    const quantity =
+        action === "decrement" ? item.quantity - 1 : item.quantity + 1;
 
     try {
         await axios.put(`https://api-auth-ehg1.onrender.com/api/v1/store/${id}`, {
@@ -45,26 +41,3 @@ async function updateQuantity(item, action) {
         console.log("error when updating the quantity", err);
     }
 }
-
-
-
-export const setProduct = (product) => {
-    return async (dispatch) => {
-        await updateQuantity(product, 'decrement');
-        dispatch({
-            type: "SET_PRODUCT",
-            payload: product
-        });
-    };
-};
-
-export const removeProduct = (product) => {
-    return async (dispatch) => {
-        await updateQuantity(product, 'increment'); 
-        dispatch({
-            type: "REMOVE_PRODUCT",
-            payload: product
-        });
-    };
-};
-

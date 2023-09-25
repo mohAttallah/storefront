@@ -26,7 +26,7 @@ function Products() {
             setIsLoadingData(false);
         });
     }, [categoriesState, cartState])
-
+    console.log(productsState)
     if (isLoadingData) {
         return (<Stack>
             <Skeleton height='20px' />
@@ -37,7 +37,7 @@ function Products() {
 
 
     const activeItem = categoriesState.find(item => item.active === true);
-    let filteredProducts =[]
+    let filteredProducts = []
     if (activeItem) {
         filteredProducts = productsState.filter(product => product.category === activeItem.name);
 

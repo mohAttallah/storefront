@@ -1,32 +1,32 @@
 /* eslint-disable  */
 import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = [{
 
 }]
 
+const productsSlice = createSlice({
+    name: "products",
+    initialState,
+    reducers: {
+        getProducts: (state, action) => {
+            return action.payload;
+        },
+    },
+});
 
-export default (state = initialState, action) => {
-    const { type, payload } = action;
-    switch (type) {
-        case 'GET':
-            return payload;
-        default:
-            return state;
+
+export default productsSlice.reducer;
+export const { getProducts } = productsSlice.actions;
+
+export const get = () => async (dispatch) => {
+    try {
+        const res = await axios.get("https://api-auth-ehg1.onrender.com/api/v1/store");
+        dispatch(getProducts(res.data));
+    } catch (error) {
+        console.error("Error fetching store data:", error);
     }
-}
-
-
-export const get = () => async dispatch => {
-    const res = await axios.get("https://api-auth-ehg1.onrender.com/api/v1/store");
-    dispatch(getActionDispatch(res.data));
-}
-
-const getActionDispatch = (data) => {
-    return {
-        type: 'GET',
-        payload: data
-    }
-}
+};
 /* eslint-enable */
